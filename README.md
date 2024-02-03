@@ -1,4 +1,8 @@
-# How to use
+#Token Checker for EVM chains
+
+Tool to check for honeypot, liquidity, buy and sell taxes without spending a dime...sfaeguard your investments! (works with public RPCs)
+
+### How to use
 
 Run
 ```shell
