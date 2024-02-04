@@ -19,7 +19,7 @@ const main = async()=>{
 
   const abc = contract_.connect(sigerns);
 
-  let {data} = await abc.getDeployTransaction(args[1],args[2],args[3], Number(args[4])*10000,args[5]?args[5]:"0x0000000000000000000000000000000000000000",{from:args[0]});
+  let {data} = await abc.getDeployTransaction(args[1],args[2],args[3], Number(args[4])*10000,{from:args[0]});
   // console.log("abc");
 
   const x = await ethers.getCreateAddress({from:"0x0000000000000000000000000000000000000000",nonce:await provider_.getTransactionCount("0x0000000000000000000000000000000000000000")});
@@ -33,6 +33,8 @@ const main = async()=>{
   const o = new ethers.AbiCoder(); 
 
   const out=o.decode(["bool","bool"],outp);
+
+  // console.log(out)
   
   console.log("is HoneyPot?: "+out[0]);
   console.log("Has Sufficient LP for 0.1 Ether trade: "+out[1]);

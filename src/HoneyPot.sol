@@ -40,13 +40,14 @@ contract HoneyPot_v2{
         
         uint buytax;
         uint selltax;
-
+            
+            uint amountsOut = IUniswapV2Router02(router).getAmountsOut(0.1 ether,  path)[path.length-1];
             //try to purchase token1 if fails there is insufficent LP for a 0.1 Ether trade
             try IUniswapV2Router02(router).swapExactETHForTokensSupportingFeeOnTransferTokens{value:0.1 ether}(0, path, address(this), block.timestamp){
-                    uint amountsBuying = IUniswapV2Router02(router).getAmountsOut(0.1 ether,  path)[path.length-1];
                     
-                    if(amountsBuying>IERC20(token1).balanceOf(address(this))){//get the buy tax
-                        buytax = ((amountsBuying-IERC20(token1).balanceOf(address(this)))*1e18)/amountsBuying;
+                    
+                    if(amountsOut>IERC20(token1).balanceOf(address(this))){//get the buy tax
+                        buytax = ((amountsOut-IERC20(token1).balanceOf(address(this)))*1e18)/amountsOut;
                         buytax*=100;
                         
                     }
@@ -57,7 +58,7 @@ contract HoneyPot_v2{
             
             IERC20(token1).approve(router, 100000000000000 ether); //approve spending
 
-            uint amountsSelling = IUniswapV2Router02(router).getAmountsOut(IERC20(token1).balanceOf(address(this)),  revPath)[revPath.length-1];
+            amountsOut = IUniswapV2Router02(router).getAmountsOut(IERC20(token1).balanceOf(address(this)),  revPath)[revPath.length-1];
             uint256 prev = owner.balance; //get user balance before selling
             
 
@@ -66,8 +67,8 @@ contract HoneyPot_v2{
                     
                     uint256 newBal =  owner.balance-prev;
                     
-                    if(amountsSelling>newBal){ //get the sell tax
-                        selltax = ((amountsSelling-newBal)*1e18)/amountsSelling;
+                    if(amountsOut>newBal){ //get the sell tax
+                        selltax = ((amountsOut-newBal)*1e18)/amountsOut;
                         selltax*=100;
                         
                     }
@@ -93,5 +94,4 @@ contract HoneyPot_v2{
 
 
     }
-    
 }
