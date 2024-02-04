@@ -16,8 +16,8 @@ For testing tokens with v3 pool
 ```shell
 $ node v3.js <any-wallet-address> <router-address> <token-to-buy-with (wETH or token the tested token is pegged with)> <token-to-be-tested> <fee 1, 0.3 or 0.05 > <v2-router-(only)-incase-not-using-weth>
 ```
-
-**NOTE: Uniswap V2 is fully supported, v3 might work but your mileage may vary**
+<!-- 
+**NOTE: Uniswap V2 is fully supported, v3 might work but your mileage may vary** -->
 ## Foundry
 
 **Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
