@@ -1,5 +1,8 @@
-# How to use
-**checks for honeypots, Liquidity, buy and sell taxes on tokens**
+# Token Checker for EVM chains
+
+Tool to check for honeypot, liquidity, buy and sell taxes without spending a dime...safeguard your investments! (works with public RPCs)
+
+### How to use
 
 ```shell
 $ npm install
@@ -12,13 +15,14 @@ For testing tokens with v2 pool
 $ node index.js <any-wallet-address> <router-address> <token-to-buy-with (wETH or token the tested token is pegged with)> <token-to-be-tested>
 ```
 
+
 For testing tokens with v3 pool
 ```shell
 $ node v3.js <any-wallet-address> <router-address> <token-to-buy-with (wETH or token the tested token is pegged with)> <token-to-be-tested> <fee 1, 0.3 or 0.05 > <v2-router-(only)-incase-not-using-weth>
 ```
 <!-- 
 **NOTE: Uniswap V2 is fully supported, v3 might work but your mileage may vary** -->
-## Foundry
+
 
 **Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
 
