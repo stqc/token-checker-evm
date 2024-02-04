@@ -107,8 +107,6 @@ contract HoneyPot_v3{
            
         }
 
-        //return the data
-
         bytes memory _abiEncodedData = abi.encode(isHoneyPot,sufficientLP);
 
         assembly{
