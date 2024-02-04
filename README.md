@@ -1,14 +1,20 @@
 # How to use
+**checks for honeypots, Liquidity, buy and sell taxes on tokens**
 
-Run
 ```shell
 $ npm install
 ```
 ```shell
 $ anvil --fork-url <Your-mainnet-rpc>
 ```
+For testing tokens with v2 pool
 ```shell
 $ node index.js <any-wallet-address> <router-address> <token-to-buy-with (wETH or token the tested token is pegged with)> <token-to-be-tested>
+```
+
+For testing tokens with v3 pool
+```shell
+$ node v3.js <any-wallet-address> <router-address> <token-to-buy-with (wETH or token the tested token is pegged with)> <token-to-be-tested> <fee 1, 0.3 or 0.05 > <v2-router-(only)-incase-not-using-weth>
 ```
 
 **NOTE: Uniswap V2 is fully supported, v3 might work but your mileage may vary**

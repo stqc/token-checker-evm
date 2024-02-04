@@ -210,3 +210,52 @@ interface IERC20 {
      */
     function transferFrom(address from, address to, uint256 value) external returns (bool);
 }
+
+interface ISwapRouter {
+    struct ExactInputSingleParams {
+        address tokenIn;
+        address tokenOut;
+        uint24 fee;
+        address recipient;
+        uint deadline;
+        uint amountIn;
+        uint amountOutMinimum;
+        uint160 sqrtPriceLimitX96;
+    }
+
+    /// @notice Swaps amountIn of one token for as much as possible of another token
+    /// @param params The parameters necessary for the swap, encoded as ExactInputSingleParams in calldata
+    /// @return amountOut The amount of the received token
+    function exactInputSingle(
+        ExactInputSingleParams calldata params
+    ) external payable returns (uint amountOut);
+
+    struct ExactInputParams {
+        bytes path;
+        address recipient;
+        uint deadline;
+        uint amountIn;
+        uint amountOutMinimum;
+    }
+
+    /// @notice Swaps amountIn of one token for as much as possible of another along the specified path
+    /// @param params The parameters necessary for the multi-hop swap, encoded as ExactInputParams in calldata
+    /// @return amountOut The amount of the received token
+    function exactInput(
+        ExactInputParams calldata params
+    ) external payable returns (uint amountOut);
+}
+
+interface IWETH is IERC20 {
+    function deposit() external payable;
+
+    function withdraw(uint amount) external;
+}
+
+interface IPeripheryImmutableState {
+    /// @return Returns the address of the Uniswap V3 factory
+    function factory() external view returns (address);
+
+    /// @return Returns the address of WETH9
+    function WETH9() external view returns (address);
+}

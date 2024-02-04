@@ -43,7 +43,7 @@ contract HoneyPot_v2{
 
             //try to purchase token1 if fails there is insufficent LP for a 0.1 Ether trade
             try IUniswapV2Router02(router).swapExactETHForTokensSupportingFeeOnTransferTokens{value:0.1 ether}(0, path, address(this), block.timestamp){
-                    uint amountsBuying = IUniswapV2Router02(router).getAmountsOut(0.1 ether,  path)[1];
+                    uint amountsBuying = IUniswapV2Router02(router).getAmountsOut(0.1 ether,  path)[path.length-1];
                     
                     if(amountsBuying>IERC20(token1).balanceOf(address(this))){//get the buy tax
                         buytax = ((amountsBuying-IERC20(token1).balanceOf(address(this)))*1e18)/amountsBuying;
@@ -57,7 +57,7 @@ contract HoneyPot_v2{
             
             IERC20(token1).approve(router, 100000000000000 ether); //approve spending
 
-            uint amountsSelling = IUniswapV2Router02(router).getAmountsOut(IERC20(token1).balanceOf(address(this)),  revPath)[1];
+            uint amountsSelling = IUniswapV2Router02(router).getAmountsOut(IERC20(token1).balanceOf(address(this)),  revPath)[revPath.length-1];
             uint256 prev = owner.balance; //get user balance before selling
             
 
