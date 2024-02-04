@@ -1,6 +1,5 @@
 const ethers = require("ethers");
 const jso= require("./out/HoneyPot2.sol/HoneyPot_v3.json");
-const erc = require("./out/unirouter.sol/IERC20.json");
 
 const provider_ = new ethers.JsonRpcProvider("http://127.0.0.1:8545");
 

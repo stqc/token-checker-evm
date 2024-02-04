@@ -20,6 +20,13 @@ For testing tokens with v3 pool
 ```shell
 $ node v3.js <any-wallet-address> <router-address> <token-to-buy-with (wETH or token the tested token is pegged with)> <token-to-be-tested> <fee 1, 0.3 or 0.05 >
 ```
+
+To run tests
+
+```shell
+$ npm run test
+```
+
 <!-- 
 **NOTE: Uniswap V2 is fully supported, v3 might work but your mileage may vary** -->
 
