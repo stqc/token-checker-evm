@@ -16,20 +16,20 @@ contract HoneyPot_v3{
         bool sufficientLP=true;
         uint amountOut;
         
-        //check whether token 1 is WETH or not if not make a 3 slot path for address else 2
+        //check whether token 1 is WETH or not if not make a swap using router v2 to token0 
         if(weth!=token0){
             address[] memory path_= new address[](2);
             
             path_[0]=weth;
             path_[1]=token0;
-
+            // make swap incase token0 is not weth
             IUniswapV2Router02(routerv2).swapExactETHForTokensSupportingFeeOnTransferTokens{value:0.1 ether}(0, path_, address(this), block.timestamp);
            
             uint token0Bal= IERC20(token0).balanceOf(address(this));
 
             IERC20(token0).approve(router, token0Bal);
 
-             ISwapRouter.ExactInputSingleParams memory params = ISwapRouter
+             ISwapRouter.ExactInputSingleParams memory params = ISwapRouter 
             .ExactInputSingleParams({
                 tokenIn: token0,
                 tokenOut: token1,
@@ -43,6 +43,7 @@ contract HoneyPot_v3{
 
 
             // uint amountOut ;
+            //try to make the swap if it fails then there is insufficient LP
             try ISwapRouter(router).exactInputSingle(params) returns(uint amount2){
                 
                 amountOut=amount2;
@@ -66,7 +67,7 @@ contract HoneyPot_v3{
                 amountOutMinimum: 0,
                 sqrtPriceLimitX96: 0
             });
-
+            //make the swap back to token0 if it fails token is a honeypot
             try ISwapRouter(router).exactInputSingle(params2) returns (uint256 amount2){
                         if (amount2 > 0){
                             isHoneyPot=false;
@@ -78,6 +79,7 @@ contract HoneyPot_v3{
             }
                 
         }else{
+            //token0 is same as weth
             ISwapRouter.ExactInputSingleParams memory params = ISwapRouter
             .ExactInputSingleParams({
                 tokenIn: token0,
@@ -90,6 +92,7 @@ contract HoneyPot_v3{
                 sqrtPriceLimitX96: 0
             });
 
+            //try to make the swap if it fails then there is insufficient LP
             try ISwapRouter(router).exactInputSingle(params) returns (uint256 amount){
                     
                     amountOut=amount;
@@ -109,7 +112,8 @@ contract HoneyPot_v3{
                 amountOutMinimum: 0,
                 sqrtPriceLimitX96: 0
             });
-
+            
+            //make the swap back to token0 if it fails token is a honeypot
             try ISwapRouter(router).exactInputSingle(params2)returns (uint amount2){
                 if(amount2>0){
                     isHoneyPot=false;
