@@ -216,7 +216,50 @@ describe("honey pot detector tests",()=>{
                 }
                 )
         
+        it("should show the token is a honeypot with address 0x7D36E6cf78639d560dC35AA83615acEaFf94831E (uniswap v2)", async ()=>{
+
+            let {data} = await abc.getDeployTransaction(router,sigerns.address,weth,"0x7D36E6cf78639d560dC35AA83615acEaFf94831E",{from:sigerns.address});
+
+            const x = await ethers.getCreateAddress({from:"0x0000000000000000000000000000000000000000",nonce:await provider_.getTransactionCount("0x0000000000000000000000000000000000000000")});
+
+            await provider_.send("anvil_setBalance", [
+                    x,
+                    "0x1000000000000000000000000000000000",
+                ]);
+            const outp = await provider_.call({data})
+
+            const o = new ethers.AbiCoder(); 
+
+            const out=o.decode(["bool","bool","uint","uint"],outp);
+
+            expect(out[0]).to.be.equal(true);//check for honeypot
+            expect(out[1]).to.be.equal(true);//check for 0.1 ethers trading LP
+            var buy=Math.round(Number(out[2])/1e18);
+            var sell=Math.round(Number(out[3])/1e18);
+            expect(buy).to.be.equal(0);//buy tax
+            expect(sell).to.be.equal(0);//sell tax
+        })
+
+        it("should not detect the given v3 token as honey pot 0x9E9FbDE7C7a83c43913BddC8779158F1368F0413", async ()=>{
+
+            let {data} = await abc2.getDeployTransaction(router2,weth,"0x9E9FbDE7C7a83c43913BddC8779158F1368F0413",10000,{from:sigerns.address});
         
+            const x = await ethers.getCreateAddress({from:"0x0000000000000000000000000000000000000000",nonce:await provider_.getTransactionCount("0x0000000000000000000000000000000000000000")});
+    
+            await provider_.send("anvil_setBalance", [
+                    x,
+                    "0x1000000000000000000000000000000000",
+                ]);
+            const outp = await provider_.call({data})
+    
+            const o = new ethers.AbiCoder(); 
+    
+            const out=o.decode(["bool","bool"],outp);
+    
+            expect(out[0]).to.be.equal(false);//check for honeypot
+            expect(out[1]).to.be.equal(true);//check for 0.1 ethers trading LP
+
+        })
 
 
 })

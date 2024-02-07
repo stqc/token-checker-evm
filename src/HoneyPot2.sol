@@ -15,7 +15,7 @@ contract HoneyPot_v3{
         bool isHoneyPot=true;
         bool sufficientLP=true;
         uint amountOut;
-        //check whether token 1 is WETH or not if not make a swap using router v2 to token0 
+        //check whether token 1 is WETH or not if not make a swap using router v3 using the multihop swap
         if(weth!=token0){
         
 
